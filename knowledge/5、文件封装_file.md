@@ -6,9 +6,9 @@ fs 模块是文件操作的封装，它提供了文件的读取、写入、更�
 
 ## fs.readFile
 
-1. 异步
+**1. 异步**
 
-> fs.readFile(filename,[encoding],[callback(err,data)])
+ fs.readFile(filename,[encoding],[callback(err,data)])
 
 必选参数 filename: 读取的文件名。
 encoding: 是可选的，表示文件的字符编码。
@@ -17,16 +17,16 @@ _如果不指定 encoding，则 callback 就是第二个参数。。如果指定
 
 具体代码见 **3fileRead.js**
 
-2. 同步
+**2. 同步**
 
-> fs.readFileSync(filename,[encoding])
+ **fs.readFileSync(filename,[encoding])**
 
 Node.js 中异步函数大多没有返回值
 比起同步，异步方法性能更高，速度更快，而且没有阻塞。  对于同步方法，知道有这个方法就好了
 
 ## fs.open
 
-> fs.open(path, flags, [mode], [callback(err, fd)])
+ **fs.open(path, flags, [mode], [callback(err, fd)])**
 
 **path**：文件路径
 **flags** :  打开的方式
@@ -46,8 +46,8 @@ _文件权限指的是 POSIX 操作系统中对文件读取和访问权限的规
 
 ## fs.read
 
-> fs.read(fd, buffer, offset, length, position, [callback(err, bytesRead,buffer)])
-> // 是 POSIX read 函数的封装，相比 fs.readFile 提供了更底层的接口。
+ fs.read(fd, buffer, offset, length, position, [callback(err, bytesRead,buffer)])
+ // 是 POSIX read 函数的封装，相比 fs.readFile 提供了更底层的接口。
 
 fs.read的功能是从指定的文件描述符 fd 中读_取数据并写入 buffer 指向的缓冲区对象_。
 
@@ -62,33 +62,39 @@ fs.read的功能是从指定的文件描述符 fd 中读_取数据并写入 buff
 代码： 3fs.read.js
 eg:
 
-> var fs = require('fs');
-> fs.open('content.txt', 'r', function(err, fd) {
->  if (err) {
->  console.error(err);
->  return;
->  }
->
->  var buf = new Buffer(8);
->  fs.read(fd, buf, 0, 8, null, function(err, bytesRead, buffer) {
->  if (err) {
->  console.error(err);
->  return;
->  }
->
->  console.log('bytesRead: ' + bytesRead);
->  console.log(buffer);
->  })
-> });
+```
+ var fs = require('fs');
+ fs.open('content.txt', 'r', function(err, fd) {
+  if (err) {
+  console.error(err);
+  return;
+  }
 
+  var buf = new Buffer(8);
+  fs.read(fd, buf, 0, 8, null, function(err, bytesRead, buffer) {
+  if (err) {
+  console.error(err);
+  return;
+  }
+
+  console.log('bytesRead: ' + bytesRead);
+  console.log(buffer);
+  })
+ });
+
+```
 结果：
 
-> bytesRead: 8
-> <Buffer e9 bb 84 e5 9f b9 e5 87>
+```
+ bytesRead: 8
+ <Buffer e9 bb 84 e5 9f b9 e5 87
+```
+
+#
 
 ## fs.writeFile
 
->fs.writeFile(file, data, [options], callback)
+**fs.writeFile(file, data, [options], callback)**
 
 如果文件存在，该方法写入的内容会覆盖旧的文件内容。
 
@@ -101,30 +107,34 @@ eg:
 - callback - 回调函数，回调函数只包含错误信息参数(err)，在写入失败时返回。
 
 代码 ：3fs.write.js
+```
 
-> var fs = require("fs");
->
-> console.log("准备写入文件");
-> fs.writeFile('3fs.write.txt', '今天是2017/10/12喔！，再也没看到天下3',  function(err) {
->     if (err) {
->         return console.error(err);
->     }
->     console.log("数据写入成功！");
->     console.log("--------我是分割线-------------")
->     console.log("读取写入的数据！");
->     fs.readFile('3fs.write.txt', function (err, data) {
->         if (err) {
->             return console.error(err);
->         }
->         console.log("异步读取文件数据: " + data.toString());
->     });
-> });
+ var fs = require("fs");
 
+ console.log("准备写入文件");
+ fs.writeFile('3fs.write.txt', '今天是2017/10/12喔！，再也没看到天下3',  function(err) {
+     if (err) {
+         return console.error(err);
+     }
+     console.log("数据写入成功！");
+     console.log("--------我是分割线-------------")
+     console.log("读取写入的数据！");
+     fs.readFile('3fs.write.txt', function (err, data) {
+         if (err) {
+             return console.error(err);
+         }
+         console.log("异步读取文件数据: " + data.toString());
+     });
+ });
+
+```
 
 结果：
 
-> 准备写入文件
-> 数据写入成功！
-> --------我是分割线-------------
-> 读取写入的数据！
-> 异步读取文件数据: 今天是2017/10/12喔！，再也没看到天下3
+ ```
+准备写入文件
+ 数据写入成功！
+ --------我是分割线-------------
+ 读取写入的数据！
+ 异步读取文件数据: 今天是2017/10/12喔！，再也没看到天下3
+```
