@@ -16,14 +16,16 @@ _目前先了解node命令行工具_
 
 node与PHP建立服务的不同
 
-> //app.js
-> var http = require('http');
-> http.createServer(function(req, res) {
->  res.writeHead(200, {'Content-Type': 'text/html'});
->  res.write('<h1>Node.js</h1>');
->  res.end('<p>Hello World</p>');
-> }).listen(3000);
-> console.log("HTTP server is listening at port 3000.");
+```
+ //app.js
+ var http = require('http');
+ http.createServer(function(req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('<h1>Node.js</h1>');
+  res.end('<p>Hello World</p>');
+ }).listen(3000);
+ console.log("HTTP server is listening at port 3000.");
+ ```
 
 _当修改了 运行脚本里的代码后，浏览器并不会实时发生变化_
 原因： Node.js 只有在第一次引用到某部份时才会去解析脚本文件，以后都会直接访问内存，避免重复载入
