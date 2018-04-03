@@ -34,9 +34,10 @@ _当修改了 运行脚本里的代码后，浏览器并不会实时发生变化
 
 插件supervisor可以解决这个问题，会监视代码的改动，并自动重启 Node.js。
 
-> npm intsall -g  supervisor
-
-> supervisor app.js
+```
+ npm intsall -g  supervisor
+ supervisor app.js
+```
 
 ## Node的异步I/O操作
 Node.js 所有的异步 I/O 操作在完成时都会发送一个事件到事件队列
@@ -44,14 +45,16 @@ Node.js 所有的异步 I/O 操作在完成时都会发送一个事件到事件�
 node的每一个方法调用，都有一个回调函数，通过EventEmitter
 运行机制如下
 
-> var EventEmitter = require('events').EventEmitter;
-> var event = new EventEmitter();
-> event.on('some_event', function() {
->  console.log('some_event occured.');
-> });
-> setTimeout(function() {
->  event.emit('some_event');
-> }, 1000);
+```
+var EventEmitter = require('events').EventEmitter;
+var event = new EventEmitter();
+event.on('some_event', function() {
+      console.log('some_event occured.');
+});
+setTimeout(function() {
+       event.emit('some_event');
+}, 1000);
+```
 
 ## Node.js 的事件循环机制
  Node.js 程序由事件循环开始，到事件循环结束，所有的逻辑都是事件的回调函数，所以 Node.js 始终在事件循环中，程序入口就是事件循环第一个事件的回调函数。事件的回调函数在执行的过程中，可能会发出 I/O 请求或直接发射（emit）事件，执行完毕后再返回事件循环，事件循环会检查事件队列中有没有未处理的事件，直到程序结束。
@@ -63,31 +66,42 @@ node的每一个方法调用，都有一个回调函数，通过EventEmitter
 
 让我们以一个例子来了解模块。创建一个 module.js 的文件，内容是：
 
-> //module.js
-> var name;
-> exports.setName = function(thyName) {
->  name = thyName;
-> };
-> exports.sayHello = function() {
->  console.log('Hello ' + name);
-> };
-> 在同一目录下创建 getmodule.js，内容是：
-> //getmodule.js
-> var myModule = require('./module');
->
-> myModule.setName('BYVoid');
-> myModule.sayHello();
-> // 运行node getmodule.js，结果是：
-> Hello BYVoid
+```
+//module.js
+var name;
+exports.setName = function(thyName) {
+     name = thyName;
+};
+exports.sayHello = function() {
+   console.log('Hello ' + name);
+};
+```
+在同一目录下创建 getmodule.js，内容是：
+```
+
+ //getmodule.js
+var myModule = require('./module');
+
+myModule.setName('BYVoid');
+myModule.sayHello();
+
+ // 运行node getmodule.js，结果是：
+
+Hello BYVoid
+```
+
+
 
 **特点：单次加载**
 
-> //loadmodule.js
-> var hello1 = require('./module');
-> hello1.setName('BYVoid');
-> var hello2 = require('./module');
-> hello2.setName('BYVoid 2');
-> hello1.sayHello();
+```
+//loadmodule.js
+var hello1 = require('./module');
+hello1.setName('BYVoid');
+var hello2 = require('./module');
+hello2.setName('BYVoid 2');
+hello1.sayHello();
+```
 输出结果
 是 Hello BYVoid 2
 
