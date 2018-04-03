@@ -11,29 +11,33 @@ _事件发射就是事件被触发的意思，相当于JQuery中的Object.triggl
 
 虽然很简单，但是我还是c一下代码吧
 
-> var events = require('events');
-> var emitter = new events.EventEmitter();
-> emitter.on('someEvent', function(arg1, arg2) {
->  console.log('listener1', arg1, arg2);
-> });
-> emitter.on('someEvent', function(arg1, arg2) {
->  console.log('listener2', arg1, arg2);，昆明
-> });
-> emitter.emit('someEvent', 'byvoid', 1991);
+ ```
+var events = require('events');
+ var emitter = new events.EventEmitter();
+ emitter.on('someEvent', function(arg1, arg2) {
+  console.log('listener1', arg1, arg2);
+ });
+ emitter.on('someEvent', function(arg1, arg2) {
+  console.log('listener2', arg1, arg2);，昆明
+ });
+ emitter.emit('someEvent', 'byvoid', 1991);
+```
 
 结果
 
-> listener1 byvoid 1991
-> listener2 byvoid 1991
+```
+ listener1 byvoid 1991
+ listener2 byvoid 1991
+```
 
 
 ## EventEmitter常用的API
 
-**EventEmitter.on(event, listener)** 为指定事件注册一个监听器，接受一个字符串 event 和一个回调函数 listener。
-**EventEmitter.emit(event, [arg1], [arg2], [...])** 发射 event 事件，传递若干可选参数到事件监听器的参数表。
-**EventEmitter.once(event, listener)** 为指定事件注册一个单次监听器，即监听器最多只会触发一次，触发后立刻解除该监听器。
-**EventEmitter.removeListener(event, listener)** 移除指定事件的某个监听器，listener 必须是该事件已经注册过的监听器。
-**EventEmitter.removeAllListeners([event])** 移除所有事件的所有监听器，如果指定 event，则移除指定事件的所有监听器。
+1. **EventEmitter.on(event, listener)** 为指定事件注册一个监听器，接受一个字符串 event 和一个回调函数 listener。
+2. **EventEmitter.emit(event, [arg1], [arg2], [...])** 发射 event 事件，传递若干可选参数到事件监听器的参数表。
+3. **EventEmitter.once(event, listener)** 为指定事件注册一个单次监听器，即监听器最多只会触发一次，触发后立刻解除该监听器。
+4. **EventEmitter.removeListener(event, listener)** 移除指定事件的某个监听器，listener 必须是该事件已经注册过的监听器。
+5. **EventEmitter.removeAllListeners([event])** 移除所有事件的所有监听器，如果指定 event，则移除指定事件的所有监听器。
 
 更详细的 API 文档参见[ http://nodejs.org/api/events.html]( http://nodejs.org/api/events.html)。
 
@@ -43,24 +47,28 @@ _事件发射就是事件被触发的意思，相当于JQuery中的Object.triggl
 EventEmitter 定义了一个特殊的事件 error，它包含了“错误”的语义，我们在遇到异常的时候通常会发射 error 事件。当 error 被发射时，EventEmitter 规定如果没有响应的监听器，Node.js 会把它当作异常，退出程序并打印调用栈。我们一般要为会发射 error事件的对象设置监听器，避免遇到错误后整个程序崩溃
 
 
-> var events = require('events');
-> var emitter = new events.EventEmitter();
-> emitter.emit('error');
+```
+ var events = require('events');
+ var emitter = new events.EventEmitter();
+ emitter.emit('error');
+```
 
 运行时会显示以下错误：
+```
 
-> node.js:201
->             throw e; // process.nextTick error, or 'error' event on first tick
->                       ^
-> Error: Uncaught, unspecified 'error' event.
->  at EventEmitter.emit (events.js:50:15)
->  at Object.<anonymous> (/home/byvoid/error.js:5:9)
->  at Module._compile (module.js:441:26)
->  at Object..js (module.js:459:10)
->  at Module.load (module.js:348:31)
->  at Function._load (module.js:308:12)
->  at Array.0 (module.js:479:10)
->  at EventEmitter._tickCallback (node.js:192:40)
+ node.js:201
+             throw e; // process.nextTick error, or 'error' event on first tick
+                       ^
+ Error: Uncaught, unspecified 'error' event.
+  at EventEmitter.emit (events.js:50:15)
+  at Object.<anonymous (/home/byvoid/error.js:5:9)
+  at Module._compile (module.js:441:26)
+  at Object..js (module.js:459:10)
+  at Module.load (module.js:348:31)
+  at Function._load (module.js:308:12)
+  at Array.0 (module.js:479:10)
+  at EventEmitter._tickCallback (node.js:192:40)
+```
 
 ## 继承 EventEmitter
 
